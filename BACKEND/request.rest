@@ -1,0 +1,21 @@
+## testing 
+
+POST  http://localhost:4000/account/register
+Content-Type: application/json
+
+{
+     "username" : "varun joshi",
+     "email" :  "varunjoshi1590@gmail.com",
+     "password"  : "12"
+}
+
+
+### LOGIN
+
+POST  http://localhost:4000/account/login
+Content-Type: application/json
+
+{
+     "email" :  "varunjoshi1590@gmail.com",
+     "password"  : "12"
+}
