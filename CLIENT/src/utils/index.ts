@@ -1,108 +1,17 @@
-const dummyStates = {
-  India: [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal",
-  ],
-  "United States": [
-    "Alabama",
-    "Alaska",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "Florida",
-    "Georgia",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Pennsylvania",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ],
-  Australia: [
-    "New South Wales",
-    "Victoria",
-    "Queensland",
-    "Western Australia",
-    "South Australia",
-    "Tasmania",
-    "Australian Capital Territory",
-    "Northern Territory",
-  ],
-};
 
 let cacheCountry: any = [];
 
-const countryUrl =
-  "https://proxy.corsfix.com/?https://www.apicountries.com/countries";
+const countryUrl = "https://countriesnow.space/api/v0.1/countries";
+const statesUrl = "https://countriesnow.space/api/v0.1/countries/states";
+
+
 
 const fetchAllCountries = async () => {
   const res = await fetch(countryUrl);
   const result = await res.json();
-  cacheCountry = result;
-  return result;
+  cacheCountry = result.data;
+ console.log(result);
+  return result.data;
 };
 
 const specificSearchCountry = (searchQuery: string) => {
@@ -114,4 +23,19 @@ const specificSearchCountry = (searchQuery: string) => {
   return matchedCountries;
 };
 
-export { dummyStates, fetchAllCountries, specificSearchCountry };
+const fetchAllStates = async (countryName: string) => {
+   
+  const res = await fetch(statesUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ country: countryName })
+  });
+
+  const result = await res.json();
+  return result.data.states
+
+
+}
+
+
+export { fetchAllStates, fetchAllCountries, specificSearchCountry };

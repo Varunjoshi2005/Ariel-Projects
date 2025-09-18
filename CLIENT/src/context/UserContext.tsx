@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { ACTIONS, type UserContextPayload } from "../types";
 
 
@@ -45,6 +45,8 @@ function reducerMethod(state: State, actions: Actions) {
 export const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [state, dispatch] = useReducer(reducerMethod, { user: null });
+    const [selectedState, setSelectedState] = useState<string>("");
+    const [selectedCountry, setSelectedCountry] = useState<string>("");
 
     function LoadFromLocalStorage() {
         const user = localStorage.getItem("user-details");
@@ -64,7 +66,10 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
 
     return (
 
-        <UserContext.Provider value={{ user: state.user, dispatch }}>
+        <UserContext.Provider value={{
+            setSelectedCountry, setSelectedState, selectedCountry, selectedState
+            , user: state.user, dispatch
+        }}>
             {children}
         </UserContext.Provider>
     )

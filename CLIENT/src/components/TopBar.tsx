@@ -10,11 +10,12 @@ import { useNavigate } from "react-router-dom";
 const Navbar: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-  const { user, dispatch } = useUserContext();
+  const { user, dispatch, selectedState, selectedCountry } = useUserContext();
+
   const navigate = useNavigate();
 
-  const [selectedRegion, setSelectedRegion] =
-    useState<string>("select your region");
+  const [selectedRegion, setSelectedRegion] = useState<string>(`${selectedState != "" ? `${selectedCountry},${selectedState}` : "select your region"}`);
+
 
   const [locationbox, setLocationBox] = useState<boolean>(false);
 
