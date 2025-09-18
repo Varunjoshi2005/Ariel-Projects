@@ -8,7 +8,13 @@ interface LocationBoxProps {
   toogleBox: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function LocationBox({ toogleBox }: LocationBoxProps) {
+interface BothBoxProps {
+  toogleBox: React.Dispatch<React.SetStateAction<boolean>>;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  value: string;
+}
+
+const CountryBox = ({ toogleBox, setValue, value }: BothBoxProps) => {
   const [allCountries, setAllCountries] = useState<any[] | null>(null);
   const [searchedCountry, setSearchedCountry] = useState<string>("");
 
@@ -31,37 +37,52 @@ function LocationBox({ toogleBox }: LocationBoxProps) {
   }, [searchedCountry]);
 
   return (
-    <div className={styles.blackBehindContainer}>
-      <div className={styles.LocationBox}>
-        <X
-          color="black"
-          onClick={() => toogleBox((prev) => !prev)}
-          className={styles.CrossButton}
+    <div className={styles.LocationBox}>
+      <X
+        color="black"
+        onClick={() => toogleBox((prev) => !prev)}
+        className={styles.CrossButton}
+      />
+
+      <div className={styles.topRegionAndInput}>
+        <span>Select Your Region</span>
+        <input
+          type="text"
+          value={searchedCountry}
+          onChange={(e) => setSearchedCountry(e.target.value)}
+          placeholder="select your country..."
         />
+      </div>
 
-        <div className={styles.topRegionAndInput}>
-          <span>Select Your Region</span>
-          <input
-            type="text"
-            value={searchedCountry}
-            onChange={(e) => setSearchedCountry(e.target.value)}
-            placeholder="select your country..."
-          />
-        </div>
-
-        <div className={styles.LocationLists}>
-          {allCountries &&
-            allCountries.map((each) => (
-              <span key={each.name}>{each.name}</span>
-            ))}
-        </div>
+      <div className={styles.LocationLists}>
+        {allCountries &&
+          allCountries.map((each) => (
+            <span key={each.name} onClick={() => setValue(each.name)}>
+              {each.name}
+            </span>
+          ))}
       </div>
     </div>
   );
+};
+
+export function StateBox({ toogleBox, setValue, value }: BothBoxProps) {
+  toogleBox(true);
 }
 
-export function StateBox({ toogleBox }: LocationBoxProps) {
-  toogleBox(true);
+function LocationBox({ toogleBox }: LocationBoxProps) {
+  const [country, setCountry] = useState<string>("");
+  const [state, setState] = useState<string>("");
+
+  return (
+    <div className={styles.blackBehindContainer}>
+      {country == "" && (
+        <CountryBox toogleBox={toogleBox} setValue={setCountry} value={state} />
+      )}
+
+      {}
+    </div>
+  );
 }
 
 export default LocationBox;
